@@ -1,0 +1,55 @@
+:root{ --bg:#061016; --bg-alt:#0b1a21; --text:#dffbff; --muted:#9ddfec; --neon:#18fff3; --accent:#1e9bff; --card:#0d232b; }
+
+*{box-sizing:border-box}
+html,body{min-height:100%;height:auto}
+body{
+  margin:0;
+  font-family:"Cairo",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+  color:var(--text);
+  line-height:1.7;
+}
+
+/* Animated background */
+.bg-animated{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.bg-animated::before{content:"";position:absolute;inset:-20%;background:conic-gradient(from 0deg at 50% 50%, rgba(24,255,243,.12), rgba(30,155,255,.12), rgba(24,255,243,.12));filter:blur(110px);opacity:.4;animation:spinGradient 28s linear infinite}
+.blob{position:absolute;filter:blur(70px);opacity:.35;border-radius:50%;animation:float 18s ease-in-out infinite}
+.blob.one{width:520px;height:520px;background:radial-gradient(circle at 30% 30%, var(--neon), transparent 60%);right:6%;top:calc(-8% + var(--scrollY,0px)/-20)}
+.blob.two{width:420px;height:420px;background:radial-gradient(circle at 50% 50%, var(--accent), transparent 60%);left:-6%;bottom:calc(-10% + var(--scrollY,0px)/-15)}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-12px,10px)}}
+@keyframes spinGradient{to{transform:rotate(1turn)}}
+
+.container{width:100%;max-width:1200px;margin-inline:auto;padding:0 20px}
+.section{padding:64px 0}
+/* Card hover improvements */
+.card{transition:transform .2s ease, box-shadow .2s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+
+.button{--glow:rgba(24,255,243,.55);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.1rem;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));color:var(--text);text-decoration:none;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+.button:hover{transform:translateY(-1px);border-color:rgba(24,255,243,.35);box-shadow:0 8px 28px -12px var(--glow), inset 0 0 0 1px rgba(24,255,243,.15)}
+.button.primary{background:linear-gradient(180deg, rgba(24,255,243,.18), rgba(24,255,243,.08));border-color:rgba(24,255,243,.35)}
+.button.ghost{background:transparent;border-color:rgba(255,255,255,.15)}
+/* Loading state for primary button */
+.button.primary.is-loading{pointer-events:none}
+.button.primary.is-loading::after{content:"";width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:var(--neon);animation:spin .8s linear infinite}
+
+@keyframes glowPulse{0%{box-shadow:0 0 18px rgba(24,255,243,.55)}50%{box-shadow:0 0 34px rgba(24,255,243,.85)}100%{box-shadow:0 0 18px rgba(24,255,243,.55)}}
+.glow{animation:glowPulse 2.4s ease-in-out infinite}
+
+/* Special headline font utility */
+.ruqaa{font-family:"Aref Ruqaa Ink", serif}
+.ruqaa-blue{color:var(--accent)}
+.neon-title.ruqaa-blue{color:var(--accent) !important}
+.ruqaa.glow-strong,.ruqaa-blue.glow-strong{animation:glowPulse 2.2s ease-in-out infinite;text-shadow:0 0 14px rgba(30,155,255,.6),0 0 34px rgba(30,155,255,.35)}
+.ruqaa-invert{filter:invert(1)}
+.nav-glow{animation:glowPulse 2.2s ease-in-out infinite;text-shadow:0 0 14px rgba(30,155,255,.6),0 0 34px rgba(30,155,255,.35)}
+
+/* Big CTA button variant */
+.button.cta-big{padding:1.1rem 1.6rem;font-size:1.15rem;border-radius:16px;width:100%}
+.button.cta-big.glow{animation:glowPulse 2s ease-in-out infinite}
+
+@media (prefers-reduced-motion: reduce){
+  .glow{animation:none}
+  .blob{animation:none}
+  .bg-animated::before{animation:none}
+}
