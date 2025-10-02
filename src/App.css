@@ -9,7 +9,7 @@
 .nav-toggle span{width:26px;height:2px;background:var(--text)}
 .site-nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0;transition:opacity .25s ease, transform .25s ease}
 .site-nav a{display:block;padding:12px 14px;border-radius:12px;color:var(--text);text-decoration:none;border:1px solid transparent}
-.site-nav a.ruqaa{font-size:1.1rem}
+.site-nav a.ruqaa{font-size:1.28rem}
 .site-nav a:hover,.site-nav a:focus{border-color:rgba(24,255,243,.35);box-shadow:0 0 0 3px rgba(24,255,243,.12)}
 .hero{position:relative;padding:64px 0}
 .neon-title{font-size:clamp(28px,5vw,46px);margin:0 0 12px;color:var(--neon);text-shadow:0 0 24px rgba(24,255,243,.8),0 0 60px rgba(0,214,201,.5);text-align:center}
@@ -18,7 +18,7 @@
 .grid{display:grid;gap:20px}
 .grid-2{grid-template-columns:1.6fr 1fr}
 .grid-3{grid-template-columns:repeat(3,1fr);gap:24px}
-.card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));border:1px solid rgba(24,255,243,.18);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:20px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));border:1px solid rgba(24,255,243,.24);border-radius:16px;box-shadow:inset 0 0 0 1px rgba(24,255,243,.12), 0 10px 30px rgba(0,0,0,.35);padding:20px}
 .parse-output{white-space:pre-wrap;background:transparent;border:1px dashed rgba(24,255,243,.25);border-radius:12px;padding:14px;color:var(--text)}
 .token{display:block;padding:.4rem .6rem;border-radius:8px;margin:.18rem 0;background:rgba(255,255,255,.03);border:1px solid rgba(24,255,243,.18)}
 .token.skeleton{border-color:rgba(24,255,243,.12);background:linear-gradient(90deg, rgba(24,255,243,.06), rgba(24,255,243,.12), rgba(24,255,243,.06));background-size:200% 100%;animation:skeleton 1.2s ease-in-out infinite}
@@ -46,6 +46,59 @@
 @keyframes slide{0%{transform:translateX(-100%)}50%{transform:translateX(120%)}100%{transform:translateX(220%)}}
 .ad-slot{display:flex;align-items:center;justify-content:center;margin:12px auto;border:1px dashed rgba(24,255,243,.25);border-radius:12px;min-height:90px;max-width:100%}
 .ad-placeholder{display:flex;align-items:center;justify-content:center;margin:12px auto;border:1px dashed rgba(24,255,243,.25);border-radius:12px;min-height:90px;max-width:100%}
+
+/* AdSense Components Styling */
+.adsense-container {
+  display: block;
+  width: 100%;
+  margin: 12px auto;
+  text-align: center;
+  overflow: hidden;
+}
+
+.adsense-container .adsbygoogle {
+  display: block !important;
+  margin: 0 auto;
+}
+
+.header-ad {
+  max-width: 100%;
+  min-height: 90px;
+}
+
+.sidebar-ad {
+  max-width: 300px;
+  min-height: 250px;
+}
+
+.content-ad {
+  max-width: 100%;
+  min-height: 280px;
+}
+
+.footer-ad {
+  max-width: 100%;
+  min-height: 320px;
+}
+
+.responsive-ad {
+  max-width: 100%;
+  min-height: 200px;
+}
+
+/* AdSense loading state */
+.adsense-container:empty::after {
+  content: 'جاري تحميل الإعلان...';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  border: 1px dashed rgba(24,255,243,.25);
+  border-radius: 12px;
+  background: rgba(255,255,255,.02);
+}
 .footer{margin-top:auto;padding:32px 0;background:rgba(3,11,15,.8);border-top:1px solid rgba(24,255,243,.18);text-align:center}
 .footer a{color:var(--muted);text-decoration:none;margin:0 6px}
 .footer a:hover{color:var(--text)}
@@ -58,6 +111,7 @@
   .nav-toggle{display:flex}
   .grid-3{grid-template-columns:1fr}
   .nav-toggle span{transition:transform .25s ease,opacity .25s ease}
+  .card{width:calc(100% - 28px);margin-left:auto;margin-right:auto}
   .nav-toggle[aria-expanded=true] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
   .nav-toggle[aria-expanded=true] span:nth-child(2){opacity:0}
   .nav-toggle[aria-expanded=true] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
