@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 export const API_CONFIG = {
   get baseUrl(){
     if (import.meta.env.DEV) return ''
@@ -11,8 +9,9 @@ export const API_CONFIG = {
 
 export function useApi(){
   const config = API_CONFIG
-  const controller = useMemo(()=> new AbortController(), [])
   async function request(path, opts){
+    // Create a fresh AbortController per request so a previous abort does not poison future calls
+    const controller = new AbortController()
     const id = setTimeout(()=> controller.abort(), config.timeout)
     try{
       const res = await fetch(config.baseUrl + path, { ...opts, signal: controller.signal, headers: { 'Content-Type':'application/json', ...(opts?.headers||{}) } })
@@ -21,12 +20,13 @@ export function useApi(){
       return await res.json()
     }catch(e){
       clearTimeout(id)
+      const isAbort = e?.name === 'AbortError' || String(e?.message||'').toLowerCase().includes('abort')
       // In development (or when explicitly enabled), use mock data for safe local testing
       if (import.meta.env.DEV || import.meta.env.VITE_USE_MOCK === '1'){
         console.warn('API error in DEV, using mock for', path, e?.message)
         return mock(path, opts)
       }
-      return { ok:false, error: e.message }
+      return { ok:false, error: isAbort ? 'timeout' : (e?.message || 'unknown') }
     }
   }
   return { request }

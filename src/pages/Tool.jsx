@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import AdSense from '../components/AdSense.jsx'
 import { useApi, API_CONFIG } from '../lib/api'
 import { renderAsLines, stripTashkeel, getI3rabText } from '../lib/text.jsx'
 
@@ -11,16 +12,27 @@ export default function Tool(){
   const [error,setError] = useState('')
 
   async function onSubmit(e){
-    e.preventDefault()
-    if (!sentence.trim()) return
+    e?.preventDefault?.()
+    if (loading) return
+    if (!sentence.trim()) { setError('يرجى إدخال جملة صحيحة أولاً.'); return }
     setLoading(true)
     setHtml('')
     setError('')
     try{
       const res = await request(API_CONFIG.endpoints.parse, { method:'POST', body: JSON.stringify({ sentence }) })
-      if (res?.html){ setHtml(res.html) } else { setError('حدث خطأ في التحليل. يرجى المحاولة مرة أخرى.') }
-    }catch{ setError('فشل في الاتصال بالخادم. تحقق من اتصال الإنترنت.') }
-    setLoading(false)
+      if (res?.html){
+        setHtml(res.html)
+      } else {
+        const errMsg = res?.error === 'timeout'
+          ? 'انتهت مهلة الطلب. يرجى المحاولة مجدداً بعد لحظات.'
+          : 'حدث خطأ في التحليل. يرجى المحاولة مرة أخرى.'
+        setError(errMsg)
+      }
+    }catch{
+      setError('فشل في الاتصال بالخادم. تحقق من اتصال الإنترنت.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -55,13 +67,16 @@ export default function Tool(){
                   <span className="token skeleton" style={{width:'35%'}}></span>
                 </div>
               ) : error ? (
-                <div style={{color:'red', textAlign:'center', padding:20}}>{error}</div>
+                <div style={{textAlign:'center', padding:20}}>
+                  <div style={{color:'salmon', marginBottom:12}}>{error}</div>
+                  <button className={`button ${loading?'is-loading':''}`} disabled={loading} onClick={onSubmit}>إعادة المحاولة</button>
+                </div>
               ) : (
                 <div className="parse-output">{renderAsLines(html, sentence)}</div>
               )}
             </div>
           )}
-          <div className="ad-placeholder" style={{marginTop:12}}>مساحة إعلانية</div>
+          <AdSense slot={import.meta.env.VITE_ADSENSE_SLOT_TOOL} className="responsive-ad" />
         </aside>
       </div>
     </section>
